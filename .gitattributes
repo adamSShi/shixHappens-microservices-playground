@@ -1,0 +1,65 @@
+# =====================================
+# 🔧 通用設定
+# =====================================
+# 自動偵測文字檔並統一換行為 LF
+* text=auto eol=lf
+
+# =====================================
+# 🐚 Shell scripts（Docker / DB init）
+# =====================================
+# 所有 .sh 腳本一律強制 LF
+*.sh text eol=lf
+
+# 確保 init scripts 在容器中可執行
+db/init/*.sh text eol=lf
+
+# =====================================
+# 📦 Node.js / Web 前端檔案
+# =====================================
+*.js    text eol=lf
+*.ts    text eol=lf
+*.vue   text eol=lf
+*.json  text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.md    text eol=lf
+*.html  text eol=lf
+*.css   text eol=lf
+*.scss  text eol=lf
+*.env   text eol=lf
+
+# =====================================
+# 🪟 Windows 專用檔案
+# =====================================
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# =====================================
+# 🧱 Binary / 不轉換的檔案類型
+# =====================================
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.zip binary
+*.gz binary
+*.tar binary
+
+# =====================================
+# 🚀 Microservices 應用專案特例
+# =====================================
+# apps/services 底下全部走 LF
+apps/services/** text eol=lf
+apps/webSite/**   text eol=lf
+
+# =====================================
+# ✅ 防止未來開發者誤用
+# =====================================
+# 強制任何 .sh 改行格式為 LF
+*.sh text eol=lf

@@ -1,0 +1,21 @@
+{
+    "name": "shixhappens-monorepo",
+    "private": true,
+    "version": "0.0.0",
+    "workspaces": [
+        "apps/services/*",
+        "apps/webSite"
+    ],
+    "scripts": {
+        "dev:services": "concurrently -n svc1,svc2,svc3,svc4,gateway -c blue,magenta,cyan,yellow,green \"npm run -w apps/services/service-1 dev\" \"npm run -w apps/services/service-2 dev\" \"npm run -w apps/services/service-3 dev\" \"npm run -w apps/services/service-4 dev\" \"npm run -w apps/services/gateway dev\"",
+        "dev:front": "npm run -w apps/webSite dev -- --port 5173",
+        "wait:services": "node scripts/wait-for-services.js",
+        "banner": "node scripts/banner.js",
+        "dev:all": "npm run dev:services & npm run wait:services && npm run banner && npm run dev:front",
+        "dev:all:seq": "npm run dev:services && npm run wait:services && npm run banner && npm run dev:front"
+    },
+    "devDependencies": {
+        "concurrently": "^9.0.1",
+        "wait-on": "^7.2.0"
+    }
+}

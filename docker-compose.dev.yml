@@ -1,0 +1,143 @@
+x-node: &node-base
+  image: node:22-alpine
+  working_dir: /app
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  svc1:
+    <<: *node-base
+    container_name: svc1
+    command: sh -c "npm ci --no-audit --no-fund || npm install --no-workspace-updates && npm run dev"
+    ports: [ "4001:4001" ]
+    volumes:
+      - ./apps/services/service-1:/app:delegated
+      - svc1_nm:/app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=admin
+      - DATABASE_PASSWORD=admin123
+      - DATABASE_NAME=db_svc1
+      - NPM_CONFIG_INSTALL_STRATEGY=nested
+      - npm_config_workspace_updates=false
+
+  svc2:
+    <<: *node-base
+    container_name: svc2
+    command: sh -c "npm ci --no-audit --no-fund || npm install --no-workspace-updates && npm run dev"
+    ports: [ "4002:4002" ]
+    volumes:
+      - ./apps/services/service-2:/app:delegated
+      - svc2_nm:/app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=admin
+      - DATABASE_PASSWORD=admin123
+      - DATABASE_NAME=db_svc2
+      - NPM_CONFIG_INSTALL_STRATEGY=nested
+      - npm_config_workspace_updates=false
+
+  svc3:
+    <<: *node-base
+    container_name: svc3
+    command: sh -c "npm ci --no-audit --no-fund || npm install --no-workspace-updates && npm run dev"
+    ports: [ "4003:4003" ]
+    volumes:
+      - ./apps/services/service-3:/app:delegated
+      - svc3_nm:/app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=admin
+      - DATABASE_PASSWORD=admin123
+      - DATABASE_NAME=db_svc3
+      - NPM_CONFIG_INSTALL_STRATEGY=nested
+      - npm_config_workspace_updates=false
+
+  svc4:
+    <<: *node-base
+    container_name: svc4
+    command: sh -c "npm ci --no-audit --no-fund || npm install --no-workspace-updates && npm run dev"
+    ports: [ "4004:4004" ]
+    volumes:
+      - ./apps/services/service-4:/app:delegated
+      - svc4_nm:/app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=admin
+      - DATABASE_PASSWORD=admin123
+      - DATABASE_NAME=db_svc4
+      - NPM_CONFIG_INSTALL_STRATEGY=nested
+      - npm_config_workspace_updates=false
+
+  gateway:
+    <<: *node-base
+    container_name: gateway
+    command: sh -c "npm ci --no-audit --no-fund || npm install --no-workspace-updates && npm run dev"
+    ports: [ "3000:3000" ]
+    volumes:
+      - ./apps/services/gateway:/app:delegated
+      - gateway_nm:/app/node_modules
+    depends_on: [ svc1, svc2, svc3, svc4 ]
+    environment:
+      - SVC1_HOST=svc1
+      - SVC2_HOST=svc2
+      - SVC3_HOST=svc3
+      - SVC4_HOST=svc4
+      - NPM_CONFIG_INSTALL_STRATEGY=nested
+      - npm_config_workspace_updates=false
+
+  front:
+    <<: *node-base
+    container_name: front
+    command: sh -c "npm ci --no-audit --no-fund || npm install --no-workspace-updates && (chmod +x /scripts/wait-for-services-docker.sh; /scripts/wait-for-services-docker.sh || true) && npm run dev -- --host 0.0.0.0 --port 5173"
+    ports: [ "5173:5173" ]
+    volumes:
+      - ./apps/webSite:/app:delegated
+      - ./scripts:/scripts:ro
+      - front_nm:/app/node_modules
+    environment:
+      - VITE_API_TARGET=http://gateway:3000
+      - NPM_CONFIG_INSTALL_STRATEGY=nested
+      - npm_config_workspace_updates=false
+    depends_on: [ svc1, svc2, svc3, svc4, gateway ]
+
+volumes:
+  front_nm: {}
+  svc1_nm: {}
+  svc2_nm: {}
+  svc3_nm: {}
+  svc4_nm: {}
+  gateway_nm: {}
+  postgres_data: {}
