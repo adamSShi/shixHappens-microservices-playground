@@ -38,7 +38,7 @@ export default function App() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 12, alignItems: 'center' }}>
         <button onClick={() => call('svc1')}>測試 服務1</button>
         <span>{svc1}</span>
-        <button onClick={() => call('svc2')}>測試 服務二</button>
+        <button onClick={() => call('svc2')}>測試 服務2</button>
         <span>{svc2}</span>
         <button onClick={() => call('svc3')}>測試 服務三</button>
         <span>{svc3}</span>
