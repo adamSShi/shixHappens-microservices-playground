@@ -36,13 +36,13 @@ export default function App() {
     <div style={{ maxWidth: 720, margin: '48px auto', fontFamily: 'sans-serif' }}>
       <h2>這是第1個前端</h2>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 12, alignItems: 'center' }}>
-        <button onClick={() => call('svc1')}>測試 服務1</button>
+        <button onClick={() => call('svc1')}>測試 服務一</button>
         <span>{svc1}</span>
-        <button onClick={() => call('svc2')}>測試 服務2</button>
+        <button onClick={() => call('svc2')}>測試 服務二</button>
         <span>{svc2}</span>
-        <button onClick={() => call('svc3')}>測試 服務3</button>
+        <button onClick={() => call('svc3')}>測試 服務三</button>
         <span>{svc3}</span>
-        <button onClick={() => call('svc4')}>測試 服務4</button>
+        <button onClick={() => call('svc4')}>測試 服務四</button>
         <span>{svc4}</span>
       </div>
     </div>
