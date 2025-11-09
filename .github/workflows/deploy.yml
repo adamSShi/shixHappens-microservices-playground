@@ -27,4 +27,4 @@ jobs:
           EOF
 
       - name: Run deploy script on EC2
-        run: ssh ec2-deploy '/opt/microservices/shixHappens-microservices-playground/deploy.sh'
+        run: ssh ec2-deploy '/opt/microservices/shixHappens-microservices-playground/scripts/deploy.sh'
