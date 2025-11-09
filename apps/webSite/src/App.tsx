@@ -40,7 +40,7 @@ export default function App() {
         <span>{svc1}</span>
         <button onClick={() => call('svc2')}>測試 服務2</button>
         <span>{svc2}</span>
-        <button onClick={() => call('svc3')}>測試 服務三</button>
+        <button onClick={() => call('svc3')}>測試 服務3</button>
         <span>{svc3}</span>
         <button onClick={() => call('svc4')}>測試 服務四</button>
         <span>{svc4}</span>
