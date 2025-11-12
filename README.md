@@ -117,16 +117,22 @@ GitHub Actions 是 GitHub 內建的 CI/CD 平台，可設定事件觸發、Runne
 ├── apps/
 │   ├── services/
 │   │   ├── gateway/      # API Gateway (Port 3000)
+│   │   │     └── Dockerfile 
 │   │   ├── service-1/    # 微服務 1 (Port 4001)
+│   │   │      └── Dockerfile 
 │   │   ├── service-2/    # 微服務 2 (Port 4002)
+│   │   │      └── Dockerfile 
 │   │   ├── service-3/    # 微服務 3 (Port 4003)
+│   │   │      └── Dockerfile 
 │   │   └── service-4/    # 微服務 4 (Port 4004)
+│   │         └── Dockerfile 
 │   └── webSite/          # 前端應用 (Port 5173)
 ├── db/
 │   └── init/             # 資料庫初始化腳本
 ├── scripts/              # 工具腳本（含 deploy.sh）
 ├── docker-compose.dev.yml # Docker Compose 配置
 └── package.json          # 根目錄 package.json (npm workspaces)
+可以再幫我生webSite、gateway跟每個service下都有docker file嗎?
 ```
 
 ## 🚀 快速開始
